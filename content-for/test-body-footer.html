@@ -18,7 +18,7 @@
         Ember.Logger.error('Violation #' + (i + 1), violations[i]);
       }
 
-      Ember.assert('The page should have no accessibility violations.', !violations.length);
+      Ember.assert('The page should have no accessibility violations: ' + JSON.stringify(violations), !violations.length);
     },
 
     /**
