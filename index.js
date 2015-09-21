@@ -24,7 +24,7 @@ module.exports = {
   included: function(app) {
     this._super.included(app);
 
-    if (app.env !== 'production') {
+    if (app.env === 'test') {
       app.import(path.join(app.bowerDirectory, 'axe-core/axe.js'));
     }
   },
@@ -47,7 +47,7 @@ module.exports = {
    */
   treeForApp: function(tree) {
     var checker = new VersionChecker(this);
-    var isProductionBuild = this.app.env === 'production';
+    var isProductionBuild = this.app.env !== 'test';
     var isOldEmber = checker.for('ember', 'bower').lt('1.13.0');
 
     if (isProductionBuild || isOldEmber) {
