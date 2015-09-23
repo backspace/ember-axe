@@ -4,6 +4,31 @@
    * ensures their availability while also avoiding a continual pollution of the
    * global namespace.
    */
+
+  function renderViolations(violations) {
+    var renderedViolations = [];
+
+    for (var i = 0; i < violations.length; i++) {
+      var violation = violations[i];
+      renderedViolations.push(renderViolation(violation));
+    }
+
+    return renderedViolations.join('\n');
+  }
+
+  function renderViolation(violation) {
+    var nodes = violation.nodes;
+
+    var renderedViolation = '* ' + violation.id + ': ' + violation.help + ' <' + violation.helpUrl + '>.\n';
+
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      renderedViolation += '  ° ' + node.html;
+    }
+
+    return renderedViolation;
+  };
+
   axe.ember = {
     /**
      * Processes the results of calling axe.a11yCheck. If there are any
@@ -18,7 +43,7 @@
         Ember.Logger.error('Violation #' + (i + 1), violations[i]);
       }
 
-      Ember.assert('The page should have no accessibility violations: ' + JSON.stringify(violations), !violations.length);
+      Ember.assert('The page should have no accessibility violations but had:\n' + renderViolations(violations), !violations.length);
     },
 
     /**
